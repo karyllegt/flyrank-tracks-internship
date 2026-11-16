@@ -1,0 +1,36 @@
+﻿:root {
+  color: #172033;
+  background: #f4f7fb;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.shell {
+  box-sizing: border-box;
+  max-width: 42rem;
+  margin: 12vh auto;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #dce3ee;
+  border-radius: 1rem;
+  box-shadow: 0 1rem 2rem rgb(23 32 51 / 8%);
+}
+
+.eyebrow {
+  color: #5263d9;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+button {
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: #fff;
+  background: #5263d9;
+  cursor: pointer;
+}
