@@ -14,6 +14,7 @@ type ToolState = {
     recommendations: string[];
   };
 };
+type ChatError = { code: string; message: string };
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -21,6 +22,8 @@ export default function ChatPage() {
   const [isStreaming, setIsStreaming] = useState(false);
   const [error, setError] = useState("");
   const [toolState, setToolState] = useState<ToolState | null>(null);
+  const [chatError, setChatError] = useState<ChatError | null>(null);
+  const lastUserMessage = useRef("");
   const controller = useRef<AbortController | null>(null);
 
   useEffect(() => {
@@ -37,6 +40,8 @@ export default function ChatPage() {
     setInput("");
     setError("");
     setToolState(null);
+    setChatError(null);
+    lastUserMessage.current = content;
     setIsStreaming(true);
     controller.current = new AbortController();
 
@@ -74,6 +79,10 @@ export default function ChatPage() {
             ?.slice(6);
           if (!data || data === "[DONE]") continue;
           const parsed = JSON.parse(data);
+          if (eventName === "error") {
+            setChatError(parsed);
+            continue;
+          }
           if (eventName === "tool") {
             setToolState(parsed);
             continue;
@@ -93,12 +102,25 @@ export default function ChatPage() {
       }
     } catch (caught) {
       if ((caught as Error).name !== "AbortError") {
-        setError((caught as Error).message);
+        const message = (caught as Error).message;
+        setError(message);
+        setChatError({ code: "NETWORK_ERROR", message: "The connection failed. Retry the last message." });
       }
+
     } finally {
       controller.current = null;
       setIsStreaming(false);
     }
+  }
+
+  function retryLastMessage() {
+    if (!lastUserMessage.current || isStreaming) return;
+    setInput(lastUserMessage.current);
+    setChatError(null);
+    setError("");
+    window.setTimeout(() => {
+      document.querySelector<HTMLFormElement>(".chat-form")?.requestSubmit();
+    }, 0);
   }
 
   return (
@@ -148,6 +170,15 @@ export default function ChatPage() {
         </section>
       )}
       {error && <p className="error">{error}</p>}
+      {chatError && (
+        <div className="failure-state" role="alert">
+          <div>
+            <p className="eyebrow">Recovery available · {chatError.code}</p>
+            <strong>{chatError.message}</strong>
+          </div>
+          <button type="button" onClick={retryLastMessage}>Retry last message</button>
+        </div>
+      )}
       <form className="chat-form" onSubmit={sendMessage}>
         <label className="sr-only" htmlFor="chat-input">Message</label>
         <input

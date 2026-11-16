@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
   const messages = Array.isArray(body.messages) ? body.messages : [];
   const latestMessage = messages[messages.length - 1]?.content || "";
   const shouldRunTool = /\b(audit|score|check|review)\b/i.test(latestMessage);
+  const shouldSimulateFailure = /\b(fail|sabotage|429|rate limit)\b/i.test(latestMessage);
 
   if (shouldRunTool) {
     const encoder = new TextEncoder();
@@ -32,6 +33,17 @@ export async function POST(request: NextRequest) {
         };
 
         try {
+          if (shouldSimulateFailure) {
+            send("message", { content: "The response started, but the upstream service stopped." });
+            await new Promise((resolve) => setTimeout(resolve, 220));
+            send("error", {
+              code: "UPSTREAM_INTERRUPTED",
+              message: "The model stream was interrupted. Retry this message to continue."
+            });
+            controller.close();
+            return;
+          }
+
           send("tool", {
             state: "input-streaming",
             tool: workspaceAuditTool.name,

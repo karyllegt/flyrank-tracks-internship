@@ -30,6 +30,14 @@ The tool returns a typed workspace audit with `focus`, `score`, `findings`, and
 `output-available`, and `output-error` as distinct states. Try a prompt such as
 “audit accessibility” in the live chat to demonstrate the tool lifecycle.
 
+## FE-08 failure-state checkpoint
+
+The chat accepts `fail`, `sabotage`, `429`, or `rate limit` as a deliberate
+test prompt. The route emits an interrupted-stream error event, and the client
+keeps the partial response with a retry action. The global route boundary in
+`app/error.tsx` provides recovery for render failures, while the initial chat
+screen is an actionable empty state.
+
 ## First assignment
 
 The Frontend AI Engineering starter includes a semantic HTML page, accessible interaction, and track-local conventions for iterative work.

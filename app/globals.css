@@ -160,6 +160,15 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(155 140 255
 .empty-chat p { margin: 0.4rem 0; color: var(--ink); }
 .empty-chat small { font-size: 0.75rem; }
 .error { color: #ff9a9a; }
+.empty-state { max-width: 42rem; margin: 4rem auto; text-align: center; }
+.empty-state h1 { margin-bottom: 0.6rem; }
+.empty-state p:not(.eyebrow) { color: var(--muted); }
+.empty-state button, .failure-state button { border: 0; border-radius: 0.7rem; padding: 0.7rem 1rem; color: #090b16; background: var(--accent); font-weight: 700; cursor: pointer; }
+.failure-state { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0; padding: 1rem; border: 1px solid #ff7777; border-radius: 1rem; background: rgb(85 22 38 / 35%); }
+.failure-state strong { display: block; margin-top: 0.25rem; }
+@media (max-width: 600px) {
+  .failure-state { align-items: stretch; flex-direction: column; }
+}
 .tool-panel { margin: 1rem 0 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 1rem; background: rgb(16 20 38 / 78%); }
 .tool-panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
 .tool-panel-header strong { display: block; margin-top: 0.25rem; }
