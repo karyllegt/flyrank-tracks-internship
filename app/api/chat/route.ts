@@ -1,10 +1,32 @@
 import { NextRequest } from "next/server";
 import { workspaceAuditTool } from "./tools";
 
+export const maxDuration = 30;
+
 const systemPrompt =
   "You are the FlyRank Workspace assistant. Give concise, practical answers about frontend project work.";
 
+const recentRequests = new Map<string, number[]>();
+const MAX_MESSAGES = 20;
+const MAX_CONTENT_LENGTH = 2_000;
+const WINDOW_MS = 60_000;
+const MAX_REQUESTS_PER_WINDOW = 12;
+
 export async function POST(request: NextRequest) {
+  const clientKey = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
+  const now = Date.now();
+  const requestTimes = (recentRequests.get(clientKey) || []).filter(
+    (timestamp) => now - timestamp < WINDOW_MS
+  );
+  if (requestTimes.length >= MAX_REQUESTS_PER_WINDOW) {
+    return Response.json(
+      { error: "Too many requests. Please wait a minute before trying again." },
+      { status: 429, headers: { "Retry-After": "60" } }
+    );
+  }
+  requestTimes.push(now);
+  recentRequests.set(clientKey, requestTimes);
+
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     return Response.json(
@@ -17,7 +39,14 @@ export async function POST(request: NextRequest) {
     messages?: Array<{ role: "user" | "assistant"; content: string }>;
   };
 
-  const messages = Array.isArray(body.messages) ? body.messages : [];
+  const messages = Array.isArray(body.messages)
+    ? body.messages.slice(-MAX_MESSAGES).filter(
+        (message) =>
+          (message.role === "user" || message.role === "assistant") &&
+          typeof message.content === "string" &&
+          message.content.length <= MAX_CONTENT_LENGTH
+      )
+    : [];
   const latestMessage = messages[messages.length - 1]?.content || "";
   const shouldRunTool = /\b(audit|score|check|review)\b/i.test(latestMessage);
   const shouldSimulateFailure = /\b(fail|sabotage|429|rate limit)\b/i.test(latestMessage);
