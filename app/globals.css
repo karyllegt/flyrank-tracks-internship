@@ -162,6 +162,23 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(155 140 255
 .empty-state h1 { margin-bottom: 0.6rem; }
 .empty-state p:not(.eyebrow) { color: var(--muted); }
 .empty-state button, .failure-state button { border: 0; border-radius: 0.7rem; padding: 0.7rem 1rem; color: #090b16; background: var(--accent); font-weight: 700; cursor: pointer; }
+.motion-card { margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.motion-card h2 { margin: 0.3rem 0 0.5rem; }
+.motion-card > p:not(.eyebrow) { color: var(--muted); }
+.motion-demo { display: grid; gap: 0.8rem; margin-top: 1rem; }
+.motion-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.55rem; width: fit-content; min-width: 13rem; border: 0; border-radius: 0.75rem; padding: 0.8rem 1rem; color: #090b16; background: var(--accent); font-weight: 700; transition: transform 200ms ease-out, opacity 200ms ease-out, background-color 200ms ease-out; }
+.motion-button:hover, .motion-button:focus-visible { transform: translateY(-2px); }
+.motion-button:disabled { cursor: wait; opacity: 0.75; }
+.motion-success { background: var(--green); }
+.motion-error { background: #ff8585; }
+.motion-icon { display: inline-grid; place-items: center; width: 1.3rem; height: 1.3rem; border-radius: 50%; background: rgb(9 11 22 / 14%); }
+.motion-triggers { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.motion-triggers button { border: 1px solid var(--border); border-radius: 0.6rem; padding: 0.5rem 0.7rem; color: var(--text); background: transparent; cursor: pointer; }
+.motion-demo small { color: var(--muted); max-width: 38rem; }
+@media (prefers-reduced-motion: reduce) {
+  .motion-button { transition: none; }
+  .motion-button:hover, .motion-button:focus-visible { transform: none; }
+}
 .failure-state { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 1rem 0; padding: 1rem; border: 1px solid #ff7777; border-radius: 1rem; background: rgb(85 22 38 / 35%); }
 .failure-state strong { display: block; margin-top: 0.25rem; }
 @media (max-width: 600px) {

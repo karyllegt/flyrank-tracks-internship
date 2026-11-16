@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { MotionButton } from "../components/motion-button";
 
 export default function SettingsPage() {
   const [message, setMessage] = useState("");
@@ -25,6 +26,12 @@ export default function SettingsPage() {
         <button className="button primary" type="submit">Save preferences <span>→</span></button>
         <p className="success-message" aria-live="polite">{message}</p>
       </form>
+      <div className="motion-card">
+        <p className="eyebrow">Motion system</p>
+        <h2>Buttons that explain themselves.</h2>
+        <p>Preview the send-button state language used across the workspace.</p>
+        <MotionButton />
+      </div>
     </section>
   );
 }
