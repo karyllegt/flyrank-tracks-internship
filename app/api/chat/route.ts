@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { workspaceAuditTool } from "./tools";
 
 const systemPrompt =
   "You are the FlyRank Workspace assistant. Give concise, practical answers about frontend project work.";
@@ -17,6 +18,80 @@ export async function POST(request: NextRequest) {
   };
 
   const messages = Array.isArray(body.messages) ? body.messages : [];
+  const latestMessage = messages[messages.length - 1]?.content || "";
+  const shouldRunTool = /\b(audit|score|check|review)\b/i.test(latestMessage);
+
+  if (shouldRunTool) {
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const send = (event: string, data: unknown) => {
+          controller.enqueue(
+            encoder.encode(`event: ${event}\ndata: ${JSON.stringify(data)}\n\n`)
+          );
+        };
+
+        try {
+          send("tool", {
+            state: "input-streaming",
+            tool: workspaceAuditTool.name,
+            message: "Preparing an audit for your workspace."
+          });
+          await new Promise((resolve) => setTimeout(resolve, 220));
+
+          const parsed = workspaceAuditTool.schema.safeParse({
+            focus: latestMessage.replace(/\b(audit|score|check|review)\b/gi, "").trim() ||
+              "frontend quality",
+            includeRecommendations: true
+          });
+
+          if (!parsed.success) {
+            send("tool", {
+              state: "output-error",
+              tool: workspaceAuditTool.name,
+              message: "The audit focus must be at least three characters."
+            });
+            controller.close();
+            return;
+          }
+
+          send("tool", {
+            state: "input-available",
+            tool: workspaceAuditTool.name,
+            input: parsed.data
+          });
+          await new Promise((resolve) => setTimeout(resolve, 220));
+
+          const result = await workspaceAuditTool.execute(parsed.data);
+          send("tool", {
+            state: "output-available",
+            tool: workspaceAuditTool.name,
+            result
+          });
+          send("message", {
+            content: `I ran the ${result.focus} audit. The workspace scored ${result.score}/100 with ${result.findings.length} typed findings.`
+          });
+        } catch {
+          send("tool", {
+            state: "output-error",
+            tool: workspaceAuditTool.name,
+            message: "The audit could not finish. Try the tool again."
+          });
+        } finally {
+          controller.close();
+        }
+      }
+    });
+
+    return new Response(stream, {
+      headers: {
+        "Cache-Control": "no-cache, no-transform",
+        "Content-Type": "text/event-stream",
+        Connection: "keep-alive"
+      }
+    });
+  }
+
   const upstream = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {

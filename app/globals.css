@@ -160,6 +160,28 @@ input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgb(155 140 255
 .empty-chat p { margin: 0.4rem 0; color: var(--ink); }
 .empty-chat small { font-size: 0.75rem; }
 .error { color: #ff9a9a; }
+.tool-panel { margin: 1rem 0 1.25rem; padding: 1rem; border: 1px solid var(--border); border-radius: 1rem; background: rgb(16 20 38 / 78%); }
+.tool-panel-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.tool-panel-header strong { display: block; margin-top: 0.25rem; }
+.tool-state { padding: 0.35rem 0.55rem; border-radius: 999px; color: var(--muted); background: rgb(255 255 255 / 7%); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.tool-input { margin: 0.8rem 0 0; color: var(--muted); }
+.tool-input strong { color: var(--text); }
+.tool-input-streaming { border-color: #8d7aff; }
+.tool-input-available { border-color: #55b4ff; }
+.tool-output-available { border-color: #54d6a0; }
+.tool-output-error { border-color: #ff7777; background: rgb(85 22 38 / 35%); }
+.audit-result { display: grid; gap: 1rem; margin-top: 1rem; }
+.audit-score { display: flex; align-items: baseline; gap: 0.35rem; }
+.audit-score strong { color: var(--accent); font-size: 3rem; line-height: 1; }
+.audit-score span { color: var(--muted); }
+.audit-findings { display: grid; gap: 0.65rem; }
+.finding { display: flex; gap: 0.7rem; padding: 0.75rem; border-radius: 0.7rem; background: rgb(255 255 255 / 4%); }
+.finding strong { display: block; }
+.finding p { margin: 0.25rem 0 0; color: var(--muted); font-size: 0.88rem; }
+.finding-status { align-self: flex-start; min-width: 3.2rem; padding: 0.25rem 0.4rem; border-radius: 999px; text-align: center; font-size: 0.68rem; text-transform: uppercase; }
+.finding-status.pass { color: #79e7bb; background: rgb(84 214 160 / 13%); }
+.finding-status.watch { color: #ffd58a; background: rgb(255 191 92 / 13%); }
+.audit-result ul { margin: 0; padding-left: 1.1rem; color: var(--muted); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 @media (max-width: 720px) {
