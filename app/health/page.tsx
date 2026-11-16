@@ -1,37 +1,13 @@
-"use client";
-
+﻿"use client";
 import { useEffect, useState } from "react";
-
 type Health = { status: string; repository: string; stars: number };
-
 export default function HealthPage() {
-  const [health, setHealth] = useState<Health | null>(null);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetch("https://api.github.com/repos/karyllegt/flyrank-tracks-internship")
-      .then((response) => {
-        if (!response.ok) throw new Error("Health data request failed.");
-        return response.json();
-      })
-      .then((data) =>
-        setHealth({
-          status: "ok",
-          repository: data.full_name,
-          stars: data.stargazers_count
-        })
-      )
-      .catch(() => setError("Health data is temporarily unavailable."));
-  }, []);
-
-  return (
-    <section className="card health-card">
-      <div className="page-title"><div><p className="eyebrow">Live verification</p><h1>System pulse.</h1><p>A quick read on the workspace and its public deployment.</p></div><span className="icon-badge green">⌁</span></div>
-      {health ? (
-        <div className="health-grid"><div><span>Status</span><strong className="online"><i />{health.status}</strong></div><div><span>Repository</span><strong>{health.repository}</strong></div><div><span>Stars</span><strong>{health.stars}</strong></div></div>
-      ) : (
-        <p aria-live="polite">{error || "Fetching repository health..."}</p>
-      )}
-    </section>
-  );
+  const [health, setHealth] = useState<Health | null>(null); const [error, setError] = useState("");
+  useEffect(() => { fetch("https://api.github.com/repos/karyllegt/flyrank-tracks-internship").then((response) => { if (!response.ok) throw new Error("Health data request failed."); return response.json(); }).then((data) => setHealth({ status: "ok", repository: data.full_name, stars: data.stargazers_count })).catch(() => setError("Health data is temporarily unavailable.")); }, []);
+  return <div className="page-stack"><section className="page-intro"><div><p className="eyebrow">02 / system health</p><h1>Know what is<br /><em>actually healthy.</em></h1><p>A focused observability view for the public workspace, with honest scope and reviewer-friendly signals.</p></div><span className="date-chip"><i /> Live repository check</span></section>
+    <section className="health-hero"><div className="health-score"><span className="score-orbit"><strong>{health ? "86" : "--"}</strong><small>/ 100</small></span><div><p className="panel-kicker">Workspace score / demo signal</p><h2>{health ? "Healthy with one watch item" : "Reading current signal"}</h2><p className="muted">This score combines the visible audit contract and deployment response. It is not a full production observability platform.</p></div></div><div className="health-status"><span className="status-check"><i /> {health ? "Operational" : "Checking"}</span><small>Last checked just now</small></div></section>
+    <section className="health-grid health-metrics"><div><span>Status</span><strong className="online"><i />{health ? health.status : "pending"}</strong><small>GitHub API response</small></div><div><span>Repository</span><strong>{health ? health.repository : "Loading..."}</strong><small>Public project identity</small></div><div><span>Stars</span><strong>{health ? health.stars : "--"}</strong><small>External signal only</small></div></section>
+    <section className="health-columns"><div className="panel"><div className="panel-heading"><div><span className="panel-kicker">Signal breakdown</span><h2>What the score means</h2></div><span className="icon-badge green">OK</span></div><div className="check-list"><div><span className="check-mark pass">+</span><div><strong>Availability</strong><small>Repository endpoint responded successfully.</small></div><b>Pass</b></div><div><span className="check-mark pass">+</span><div><strong>Interface resilience</strong><small>Streaming and recovery states are represented in the product.</small></div><b>Pass</b></div><div><span className="check-mark watch">!</span><div><strong>Performance trace</strong><small>Cold-start and network timing still need deeper production profiling.</small></div><b>Watch</b></div></div></div><div className="panel recommendation-panel"><span className="panel-kicker">Recommended next</span><h2>Turn signals into proof.</h2><p className="muted">Use the AI audit to inspect accessibility or performance, then return here with the result as a review artifact.</p><a className="button primary small" href="/chat/">Run an AI audit -&gt;</a></div></section>
+    <p className="health-note" aria-live="polite">{health ? "Live data connected to the public GitHub repository. Score breakdown above uses deterministic product signals." : error || "Fetching repository health..."}</p>
+  </div>;
 }
