@@ -15,3 +15,7 @@ The active track starts in `tracks/frontend-ai-engineering`. The project is inte
 ## Conventions
 
 See [CLAUDE.md](./CLAUDE.md) for stack and contribution conventions.
+
+## First assignment
+
+The Frontend AI Engineering starter includes a semantic HTML page, accessible interaction, and track-local conventions for iterative work.
