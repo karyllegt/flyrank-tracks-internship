@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       "X-Title": "FlyRank Workspace"
     },
     body: JSON.stringify({
-      model: "openai/gpt-4o-mini",
+      model: "openrouter/free",
       stream: true,
       messages: [{ role: "system", content: systemPrompt }, ...messages]
     }),
