@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  padding: 2rem;
+  color: #172033;
+  font-family: system-ui, sans-serif;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+  max-width: 24rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 700;
+}
+
+input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.65rem;
+}
+
+input[aria-invalid="true"] {
+  border: 2px solid #b42318;
+}
+
+.error {
+  min-height: 1.25rem;
+  margin: 0.35rem 0 0;
+  color: #b42318;
+}

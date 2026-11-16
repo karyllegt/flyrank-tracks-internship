@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="./settings.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Settings</h1>
+      <form id="settings-form" novalidate>
+        <div>
+          <label for="display-name">Display name</label>
+          <input id="display-name" name="displayName" autocomplete="name" required />
+          <p class="error" id="display-name-error"></p>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required />
+          <p class="error" id="email-error"></p>
+        </div>
+        <button type="submit">Save settings</button>
+        <p aria-live="polite" id="message"></p>
+      </form>
+    </main>
+    <script type="module" src="./settings.js"></script>
+  </body>
+</html>

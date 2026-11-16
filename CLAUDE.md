@@ -12,6 +12,9 @@
 - Prefer small, composable JavaScript functions.
 - Keep styling in track-local files unless it is shared by multiple tracks.
 - Use clear, descriptive names and avoid unnecessary dependencies.
+- Validate form inputs explicitly and expose actionable field-level errors.
+- Keep user-visible status messages accessible with an appropriate live region.
+- Verify empty, invalid, and valid form states before calling a feature complete.
 
 ## Git conventions
 
