@@ -38,6 +38,12 @@ keeps the partial response with a retry action. The global route boundary in
 `app/error.tsx` provides recovery for render failures, while the initial chat
 screen is an actionable empty state.
 
+## FE-09 testing pass
+
+Run `npm test` for the six typed tool-contract tests and `npm run test:e2e`
+against a running local app. GitHub Actions runs both the unit suite and the
+Playwright smoke flow on pushes to `master` and pull requests.
+
 ## First assignment
 
 The Frontend AI Engineering starter includes a semantic HTML page, accessible interaction, and track-local conventions for iterative work.
