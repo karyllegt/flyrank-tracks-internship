@@ -3,8 +3,8 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FlyRank Frontend Track",
-  description: "A deployed capstone skeleton for the FlyRank internship."
+  title: "FlyRank Workspace",
+  description: "A focused workspace for building and shipping with AI."
 };
 
 const links = [
@@ -22,13 +22,17 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <header className="site-header">
-          <Link className="brand" href="/">
-            FlyRank Workspace
-          </Link>
+          <div className="brand-wrap">
+            <Link className="brand" href="/">
+              <span className="brand-mark">F</span>
+              <span>FlyRank <b>Workspace</b></span>
+            </Link>
+            <span className="status-pill"><i /> Live workspace</span>
+          </div>
           <nav aria-label="Primary navigation">
             {links.map((link) => (
               <Link key={link.href} href={link.href}>
-                {link.label}
+                <span>{link.label}</span>
               </Link>
             ))}
           </nav>

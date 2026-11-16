@@ -82,10 +82,9 @@ export default function ChatPage() {
 
   return (
     <section className="card chat-card">
-      <p className="eyebrow">AI interaction</p>
-      <h1>Workspace assistant</h1>
+      <div className="page-title"><div><p className="eyebrow">AI interaction</p><h1>Think out loud.</h1><p>Ask a question, explore a direction, or pressure-test your next build.</p></div><span className="icon-badge purple">✦</span></div>
       <div className="messages" aria-live="polite">
-        {messages.length === 0 && <p className="muted">Ask about your frontend project.</p>}
+        {messages.length === 0 && <div className="empty-chat"><span>✦</span><p>Ask about your frontend project.</p><small>The assistant will stream its response here.</small></div>}
         {messages.map((message, index) => (
           <article className={`message ${message.role}`} key={`${message.role}-${index}`}>
             <strong>{message.role === "user" ? "You" : "Assistant"}</strong>

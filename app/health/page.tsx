@@ -25,18 +25,10 @@ export default function HealthPage() {
   }, []);
 
   return (
-    <section className="card">
-      <p className="eyebrow">Live verification</p>
-      <h1>Health check</h1>
+    <section className="card health-card">
+      <div className="page-title"><div><p className="eyebrow">Live verification</p><h1>System pulse.</h1><p>A quick read on the workspace and its public deployment.</p></div><span className="icon-badge green">⌁</span></div>
       {health ? (
-        <dl>
-          <dt>Status</dt>
-          <dd>{health.status}</dd>
-          <dt>Repository</dt>
-          <dd>{health.repository}</dd>
-          <dt>Stars</dt>
-          <dd>{health.stars}</dd>
-        </dl>
+        <div className="health-grid"><div><span>Status</span><strong className="online"><i />{health.status}</strong></div><div><span>Repository</span><strong>{health.repository}</strong></div><div><span>Stars</span><strong>{health.stars}</strong></div></div>
       ) : (
         <p aria-live="polite">{error || "Fetching repository health..."}</p>
       )}

@@ -11,9 +11,8 @@ export default function SettingsPage() {
   }
 
   return (
-    <section className="card">
-      <p className="eyebrow">Placeholder route</p>
-      <h1>Settings</h1>
+    <section className="card settings-card">
+      <div className="page-title"><div><p className="eyebrow">Workspace preferences</p><h1>Make it yours.</h1><p>Keep your working identity close to the work.</p></div><span className="icon-badge purple">◎</span></div>
       <form className="form" onSubmit={handleSubmit}>
         <label>
           Display name
@@ -23,8 +22,8 @@ export default function SettingsPage() {
           Email
           <input required type="email" name="email" autoComplete="email" />
         </label>
-        <button type="submit">Save settings</button>
-        <p aria-live="polite">{message}</p>
+        <button className="button primary" type="submit">Save preferences <span>→</span></button>
+        <p className="success-message" aria-live="polite">{message}</p>
       </form>
     </section>
   );
