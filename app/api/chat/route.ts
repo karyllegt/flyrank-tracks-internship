@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   const shouldRunTool = /\b(audit|score|check|review)\b/i.test(latestMessage);
   const shouldSimulateFailure = /\b(fail|sabotage|429|rate limit)\b/i.test(latestMessage);
 
-  if (shouldRunTool) {
+  if (shouldRunTool || shouldSimulateFailure) {
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       async start(controller) {
