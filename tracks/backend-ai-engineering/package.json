@@ -1,0 +1,12 @@
+{
+  "name": "flyrank-backend-ai-engineering",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "RuleGuard AI: a validated, retrieval-grounded backend capstone for the FlyRank track.",
+  "scripts": {
+    "test": "node --test",
+    "eval": "node evals/run-eval.js",
+    "start": "node src/server.js"
+  }
+}
