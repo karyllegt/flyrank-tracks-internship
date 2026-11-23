@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "installCommand": "cd tracks/frontend-ai-engineering && npm ci",
+  "buildCommand": "cd tracks/frontend-ai-engineering && npm run build",
+  "outputDirectory": "tracks/frontend-ai-engineering/.next"
+}
